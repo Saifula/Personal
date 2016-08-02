@@ -1,0 +1,41 @@
+---
+title: "Mushrooms"
+author: "Saif Ansari"
+date: "August 1, 2016"
+output: html_document
+---
+
+## Mushrooms
+
+This is a simple script that takes data from UCI.edu and transforms it to render the coded information into a human-readable dataframe. The script only translates a few fieds to give an example of how the rest of the data might be translated. A more thorough script might evaluate the kinds of factors that separate poisonous and edible mushrooms and where to find them.
+
+```{r Mushrooms}
+
+  library(RCurl)
+  library(plyr)
+  
+  url<- "https://archive.ics.uci.edu/ml/machine-learning-databases/mushroom/agaricus-lepiota.data"
+  mushroom_raw_data <-getURL(url)
+  mushroom_dataframe <- read.csv(text=mushroom_raw_data,header=F,sep=",")
+  
+  mushroom_selected_dataframe <- mushroom_dataframe[,c(1,6,22,23)]
+  mushroom_selected_dataframe <- rename(mushroom_selected_dataframe, c("V1"="EdibleID", "V6"="OdorID", "V22"="PopulationID", "V23"="HabitatID"))
+  
+  edible_data = data.frame (EdibleID=c("p","e"), EdibleDesc=c("Poisonous","Edible"))
+
+    odor_data = data.frame(OdorID=c("a","l","c","y","f","m","n","p","s"),OdorDesc=c("almond","anise","creosote","fishy","foul","musty","none","pungent","spicy"))
+
+    population_data = data.frame(PopulationID=c("a","c","n","s","v","y"),PopulationDesc=c("abundant","clustered","numerous","scattered","several","solitary"))
+  
+    habitat_data = data.frame(HabitatID=c("g","l","m","p","u","w","d"),HabitatDesc=c("Grasses","Leaves","Meadows","Paths","Urban","Waste","Woods"))
+  
+  df <- merge(mushroom_selected_dataframe,edible_data, by="EdibleID")
+  df <- merge(df, odor_data, by="OdorID")
+  df <- merge(df, population_data, by="PopulationID")
+  df <- merge(df, habitat_data, by="HabitatID")
+  
+  mushroom_final_dataframe <- df[,c(5:8)]
+  mushroom_final_dataframe <- rename(mushroom_final_dataframe, c("EdibleDesc"="Edible", "OdorDesc"="Odor", "PopulationDesc" = "Population", "HabitatDesc" = "Habitat"))
+
+    head(mushroom_final_dataframe)
+```
