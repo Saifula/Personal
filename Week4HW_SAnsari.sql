@@ -8,9 +8,9 @@ DROP TABLE IF EXISTS CompanyOrg;
 
 CREATE TABLE CompanyOrg(
 	EmployeeID INT NOT NULL PRIMARY KEY,
-    EmployeeName VARCHAR(100) NOT NULL,
-    ManagerID INT,
-    TitleID INT NOT NULL,
+	EmployeeName VARCHAR(100) NOT NULL,
+	ManagerID INT,
+	TitleID INT NOT NULL,
 	Title VARCHAR(100) NOT NULL
  );
 
@@ -39,3 +39,5 @@ FROM
 	CompanyOrg AS T1 LEFT JOIN CompanyOrg AS T2 ON T1.ManagerID = T2.EmployeeID
 ORDER BY
 	T1.TitleID, T2.EmployeeName, T1.EmployeeName;
+
+
