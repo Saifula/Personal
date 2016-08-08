@@ -1,0 +1,65 @@
+---
+title: "Graphical Analysis"
+author: "Saif Ansari"
+date: "August 8, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Graphical Analysis
+
+I made up most of the data used in this project, they're both in my Git repository (linked in the asignment.) I also had to look up the syntax quite a bit at ggplot2.org and I also looked at a few articles on r-bloggers.com for graph use.
+
+```{r}
+#install("ggplot2")
+library(ggplot2)
+```
+
+## Histogram
+
+This imports the data, and sets up the graph, which is then illustrated below.
+
+```{r}
+sales <- read.csv(file="sales2.csv",header=TRUE,sep=",")
+
+HistogramPlot = ggplot(data=sales, aes(sales$GoalsAttained))
+HistogramPlot = HistogramPlot + geom_histogram(bins=20,col="black",fill="gray")
+HistogramPlot = HistogramPlot + labs(x="Salespeople", y="Count")
+HistogramPlot = HistogramPlot + labs(title="Histogram for Goals achieved during a month")
+
+```
+```{r echo=FALSE}
+HistogramPlot
+```
+
+## Box Plot
+
+Reading in some data to plot.
+
+```{r}
+sales <- read.csv(file="sales4.csv",header=TRUE,sep=",")
+
+BoxPlot = ggplot(data=sales, aes(sales$Price,sales$Profit))
+BoxPlot = BoxPlot + geom_boxplot() 
+BoxPlot = BoxPlot + labs(x="Price", y="Profit")
+BoxPlot = BoxPlot +labs(title="Box plot for Cost vs Price")
+```
+```{r echo=FALSE}
+BoxPlot
+```
+
+## Scatter Plot
+
+Using data from the above table to plot.
+
+```{r}
+ScatterPlot = ggplot(data=sales, aes(Price,Profit))
+ScatterPlot = ScatterPlot + geom_point(aes(color = ProfitPerUnit))
+ScatterPlot = ScatterPlot + labs(title="Scatterplot of Price and Profit as well as Profit Per unit")
+```
+```{r echo=FALSE}
+ScatterPlot
+```
